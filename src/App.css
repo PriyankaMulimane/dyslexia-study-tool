@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/OpenDyslexic-Regular.otf') format('opentype');
+}
+
+/* 1. Progress Bar */
+.progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #eee; z-index: 11000; }
+.progress-bar { height: 100%; background: #2563eb; transition: width 0.2s; }
+
+/* 2. Color Filter Overlays */
+.contrast-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 5; transition: 0.4s;
+}
+
+/* 3. Focus Patterns (Mesh Grid & Reading Beam) */
+/* The mesh grid stays on the whole screen as a background anchor */
+.focus-grid-stimulation {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-image: radial-gradient(rgba(37, 99, 235, 0.1) 1.5px, transparent 1.5px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The localized Highlight Beam */
+.reading-beam {
+  position: fixed; /* Keep fixed for smooth movement */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; /* MATCH the max-width of your lesson-card */
+  height: 45px;
+  
+  /* Attractive Highlight Colour */
+  background: rgba(255, 230, 0, 0.3); 
+  border-top: 2px solid #ffd700;
+  border-bottom: 2px solid #ffd700;
+  
+  pointer-events: none;
+  z-index: 11; /* Sits right on top of text */
+  mix-blend-mode: multiply; /* Makes it look like a real highlighter */
+}
+/* 4. Formatting Toggles */
+.dyslexia-font, .dyslexia-font * { font-family: 'OpenDyslexic', sans-serif !important; }
+.wide-spacing .text-display { letter-spacing: 0.12em !important; word-spacing: 0.3em !important; line-height: 2.5 !important; }
+
+/* 5. Highlights */
+mark {
+  background: #000 !important; color: #ff0 !important; font-weight: bold;
+  padding: 0 4px; border-radius: 4px; position: relative; z-index: 10001;
+}
+
+/* 6. Layout Styling */
+.app-container { min-height: 100vh; background-color: #f8fafc; padding: 40px 20px; transition: 0.3s; }
+.controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; position: relative; z-index: 10500; }
+
+.btn-toggle { padding: 8px 16px; border-radius: 20px; border: 1px solid #cbd5e1; background: white; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.btn-toggle.active { background: #1e293b !important; color: #fff !important; }
+.listen-btn { background: #eff6ff !important; color: #1e40af !important; border-color: #bfdbfe !important; }
+.simplify-btn { background: #f0fdf4 !important; color: #166534 !important; border-color: #bbf7d0 !important; }
+
+/* Container for the text */
+.lesson-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  position: relative; /* This pins the beam inside */
+  overflow: hidden;    /* This cuts off the beam if it tries to leave the box */
+  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+/* Ensure the text is ALWAYS on top of the beam */
+.text-display {
+  position: relative;
+  z-index: 10;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  color: #334155;
+}
+
+@keyframes pulse-blue { 
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); } 
+  70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); } 
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); } 
+}
+.btn-toggle.active.pulse { animation: pulse-blue 2s infinite; }
